@@ -1,7 +1,10 @@
+#include "constants.hpp"
 #include "vector.hpp"
 
+#include <algorithm> // std::min()
 #include <cstdlib> // std::exit()
 #include <cmath> // std::hypot(), std::sqrt(), std::pow()
+#include <limits> // std::numeric_limits<std::streamsize>::max()
 
 namespace Vector {
 
@@ -19,7 +22,10 @@ Vector::Vector( const int t_size )
         this->size = t_size;
     }
     else {
-        std::cerr << "Negative vector size is given while instantiation. Exit.";
+        std::cerr
+            << "Negative vector size was given while instantiation. Exit."
+            << std::endl;
+
         std::exit( 1 );
     }
 }
@@ -69,11 +75,17 @@ double &Vector::operator[]( const int index ) const
         return this->vector[ index ];
     }
     else if ( index < 0 ) {
-        std::cerr << "Can not get element at negative index. Exit.";
+        std::cerr
+            << "Can not get element at negative index. Exit."
+            << std::endl;
+
         std::exit( 1 );
     }
     else {
-        std::cerr << "The index is out of bounds. Exit.";
+        std::cerr
+            << "The index is out of bounds. Exit."
+            << std::endl;
+
         std::exit( 1 );
     }
 }
@@ -84,27 +96,25 @@ double &Vector::operator[]( const int index )
         return this->vector[ index ];
     }
     else if ( index < 0 ) {
-        std::cerr << "Can not get element at negative index. Exit.";
+        std::cerr
+            << "Can not get element at negative index. Exit."
+            << std::endl;
         std::exit( 1 );
     }
     else {
-        std::cerr << "The index is out of bounds. Exit.";
+        std::cerr
+            << "The index is out of bounds. Exit."
+            << std::endl;
         std::exit( 1 );
     }
 }
 
 Vector Vector::operator+( const Vector &t_vector ) const
 {
-    Vector vector_new = *this;
+    Vector vector_new = this->size >= t_vector.size ? *this : t_vector;
 
-    if ( vector_new.size == t_vector.size ) {
-        for ( int i = 0; i < vector_new.size; ++i ) {
-            vector_new.vector[ i ] += t_vector.vector[ i ];
-        }
-    }
-    else {
-        std::cerr << "Can not sum two vectors with different sizes. Exit." << std::endl;
-        std::exit ( 1 );
+    for ( int i = 0; i < std::min( this->size, t_vector.size ); ++i ) {
+        vector_new.vector[ i ] += t_vector.vector[ i ];
     }
 
     return vector_new;
@@ -126,14 +136,8 @@ double Vector::operator*( const Vector &t_vector ) const
 {
     double scalar_product = 0;
 
-    if ( this->size == t_vector.size ) {
-        for ( int i = 0; i < this->size; ++i ) {
-            scalar_product += this->vector[ i ] * t_vector.vector[ i ];
-        }
-    }
-    else {
-        std::cerr << "Can not multiply two vectors with different sizes. Exit." << std::endl;
-        std::exit( 1 );
+    for ( int i = 0; i < std::min( this->size, t_vector.size ); ++i ) {
+        scalar_product += this->vector[ i ] * t_vector.vector[ i ];
     }
 
     return scalar_product;
@@ -154,7 +158,7 @@ double Vector::length() const
         return std::hypot( this->vector[ 0 ], this->vector[ 1 ] );
     }
     else if ( this->size == 1 ) {
-        return this->vector[ 0 ];
+        return std::abs( this->vector[ 0 ] );
     }
     else if ( !this->size ) {
         return 0;
@@ -208,10 +212,32 @@ std::istream &operator>>( std::istream &t_istream, Vector &t_vector )
 
     // First argument is the size of vector
     t_istream >> t_vector.size;
-    t_vector.vector = new double[ t_vector.size ];
 
-    for ( int i = 0; i < t_vector.size; ++i ) {
-        t_istream >> t_vector.vector[ i ];
+    if ( t_vector.size > 0 ) {
+        t_vector.vector = new double[ t_vector.size ];
+
+        for ( int i = 0; i < t_vector.size; ++i ) {
+            t_istream >> t_vector.vector[ i ];
+
+            // Check for bad input
+            if ( t_istream.bad() ) {
+                std::cerr
+                    << "Error while creating vector. Exit."
+                    << std::endl;
+                std::exit( 1 );
+            }
+            else if ( t_istream.fail() ) {
+                // t_vector.vector[ i ] = 0;
+                t_istream.clear();
+                t_istream.ignore( std::numeric_limits<std::streamsize>::max(), '\n');
+            }
+        }
+    }
+    else {
+        std::cerr
+            << "Vector size must be greater than 0. Exit."
+            << std::endl;
+        std::exit( 1 );
     }
 
     return t_istream;
@@ -224,44 +250,14 @@ int Vector::get_size() const
 
 double angle( const Vector v1, const Vector v2 )
 {
-    if ( v1.get_size() != v2.get_size() ) {
-        std::cerr << "Can not find the angle: vectors have different sizes. Exit.";
-        std::exit( 1 );
-    }
+    const double l1 = v1.length();
+    const double l2 = v2.length();
 
-    const int size = v1.get_size();
-
-    // Calculating the nominator
-    double nominator = 0;
-
-    for ( int i = 0; i < size; ++i ) {
-        nominator += v1[ i ] * v2[ i ];
-    }
-
-    // Calculating the denominator
-    double denominator = 1;
-    double temp = 0;
-
-    for ( int i = 0; i < size; ++i ) {
-        temp += std::pow( v1[ i ], 2 );
-    }
-
-    denominator *= std::sqrt( temp );
-    temp = 0;
-
-    for ( int i = 0; i < size; ++i ) {
-        temp += std::pow( v2[ i ], 2 );
-    }
-
-    denominator *= std::sqrt( temp );
-
-    if ( denominator ) {
-        // The angle:
-        return std::acos( nominator / denominator );
+    if ( l1 != 0.0 && l2 != 0.0 ) {
+        return (std::acos( (v1 * v2) / (l1 * l2) ) * 180.0) / PI;
     }
     else {
-        // Null denominator means both vectors are 0
-        return 0;
+        return 0.0;
     }
 }
 

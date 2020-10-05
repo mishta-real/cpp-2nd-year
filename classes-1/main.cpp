@@ -31,7 +31,7 @@ void test_complex()
     std::cout << "|c2| = " << c2.abs() << "\n";
     c1 > c2 ? std::cout << "c1 > c2 ? yes\n" : std::cout << "c1 > c2 ? no\n";
     c1 < c2 ? std::cout << "c1 < c2 ? yes\n" : std::cout << "c1 > c2 ? no\n";
-    c1 == c2 ? std::cout << "c1 = c2 ? yes\n" : std::cout << "c1 = c2 ? no\n";
+    c1 == c2 ? std::cout << "c1 == c2 ? yes\n" : std::cout << "c1 == c2 ? no\n";
     c1 != c2 ? std::cout << "c1 != c2 ? yes\n" : std::cout << "c1 != c2 ? no";
 }
 
@@ -41,7 +41,7 @@ void test_vector()
     Vector::Vector v1;
     std::cin >> v1;
 
-    std::cout << "v2 (1st argument - size (of first vector)): ";
+    std::cout << "v2 (1st argument - size): ";
     Vector::Vector v2;
     std::cin >> v2;
 
@@ -54,6 +54,7 @@ void test_vector()
 
     std::cout << "v1 + v2 = " << v1 + v2 << "\n";
     std::cout << "v1 * 15 = " << v1 * 15 << "\n";
+    std::cout << "v2 * 15 = " << v2 * 15 << "\n";
     std::cout << "v1 * v2 = " << v1 * v2 << "\n";
 
     std::cout << std::endl;
@@ -62,7 +63,7 @@ void test_vector()
     std::cout << "|v2| = " << v2.length() << "\n";
     v1 > v2 ? std::cout << "v1 > v2 ? yes\n" : std::cout << "v1 > v2 ? no\n";
     v1 < v2 ? std::cout << "v1 < v2 ? yes\n" : std::cout << "v1 > v2 ? no\n";
-    v1 == v2 ? std::cout << "v1 = v2 ? yes\n" : std::cout << "v1 = v2 ? no\n";
+    v1 == v2 ? std::cout << "v1 == v2 ? yes\n" : std::cout << "v1 == v2 ? no\n";
     v1 != v2 ? std::cout << "v1 != v2 ? yes\n" : std::cout << "v1 != v2 ? no\n";
 
     std::cout << std::endl;
@@ -72,8 +73,8 @@ void test_vector()
 
 int main()
 {
-    test_complex();
-    std::cout << std::endl;
+    // test_complex();
+    // std::cout << std::endl;
 
     test_vector();
     std::cout << std::endl;

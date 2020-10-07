@@ -10,34 +10,34 @@ namespace Complex {
 
 Complex::Complex()
 {
-    m_re = 0;
-    m_im = 0;
+    this->m_re = 0;
+    this->m_im = 0;
 }
 
 Complex::Complex( const double t_re, const double t_im )
 {
-    m_re = t_re;
-    m_im = t_im;
+    this->m_re = t_re;
+    this->m_im = t_im;
 }
 
 Complex::Complex( const Complex &t_complex )
 {
-    m_re = t_complex.m_re;
-    m_im = t_complex.m_im;
+    this->m_re = t_complex.m_re;
+    this->m_im = t_complex.m_im;
 }
 
 // =============== Arithmetical operators ===============
 
 double Complex::abs() const
 {
-    return std::hypot( m_re, m_im );
+    return std::hypot( this->m_re, this->m_im );
 }
 
 Complex &Complex::operator=( const Complex &t_complex )
 {
     if ( this != &t_complex ) {
-        m_re = t_complex.m_re;
-        m_im = t_complex.m_im;
+        this->m_re = t_complex.m_re;
+        this->m_im = t_complex.m_im;
     }
     else {
         // Empty
@@ -49,24 +49,24 @@ Complex &Complex::operator=( const Complex &t_complex )
 Complex Complex::operator+( const Complex &t_complex )
 {
     return Complex(
-        m_re + t_complex.m_re,
-        m_im + t_complex.m_im
+        this->m_re + t_complex.m_re,
+        this->m_im + t_complex.m_im
     );
 }
 
 Complex Complex::operator-( const Complex &t_complex )
 {
     return Complex(
-        m_re - t_complex.m_re,
-        m_im - t_complex.m_im
+        this->m_re - t_complex.m_re,
+        this->m_im - t_complex.m_im
     );
 }
 
 Complex Complex::operator*( const Complex &t_complex )
 {
     return Complex(
-        m_re * t_complex.m_re - m_im * t_complex.m_im,
-        m_re * t_complex.m_im + m_im * t_complex.m_re
+        this->m_re * t_complex.m_re - this->m_im * t_complex.m_im,
+        this->m_re * t_complex.m_im + this->m_im * t_complex.m_re
     );
 }
 
@@ -79,8 +79,8 @@ Complex Complex::operator/( const Complex &t_complex )
 
     if ( denominator ) {
         return Complex(
-            (m_re * t_complex.m_re + m_im * t_complex.m_im) / denominator,
-            (m_im * t_complex.m_re - m_re * t_complex.m_im) / denominator
+            (this->m_re * t_complex.m_re + this->m_im * t_complex.m_im) / denominator,
+            (this->m_im * t_complex.m_re - this->m_re * t_complex.m_im) / denominator
         );
     }
     else {
@@ -91,6 +91,11 @@ Complex Complex::operator/( const Complex &t_complex )
 
 // =============== Relational operators ===============
 
+bool Complex::operator!() const
+{
+    return !(this->m_re || this->m_im);
+}
+
 bool Complex::operator>( const Complex &t_complex ) const
 {
     return this->abs() > t_complex.abs();
@@ -99,6 +104,16 @@ bool Complex::operator>( const Complex &t_complex ) const
 bool Complex::operator<( const Complex &t_complex ) const
 {
     return this->abs() < t_complex.abs();
+}
+
+bool Complex::operator>=( const Complex &t_complex ) const
+{
+    return this->abs() >= t_complex.abs();
+}
+
+bool Complex::operator<=( const Complex &t_complex ) const
+{
+    return this->abs() <= t_complex.abs();
 }
 
 bool Complex::operator==( const Complex &t_complex ) const

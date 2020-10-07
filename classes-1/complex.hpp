@@ -19,8 +19,11 @@ public:
     Complex operator*( const Complex &t_complex );
     Complex operator/( const Complex &t_complex );
 
+    bool operator!() const;
     bool operator>( const Complex &t_complex ) const;
     bool operator<( const Complex &t_complex ) const;
+    bool operator>=( const Complex &t_complex ) const;
+    bool operator<=( const Complex &t_complex ) const;
     bool operator==( const Complex &t_complex ) const;
     bool operator!=( const Complex &t_complex ) const;
 

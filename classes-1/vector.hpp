@@ -22,6 +22,8 @@ public:
 
     bool operator>( const Vector &t_vector ) const;
     bool operator<( const Vector &t_vector ) const;
+    bool operator>=( const Vector &t_vector ) const;
+    bool operator<=( const Vector &t_vector ) const;
     bool operator==( const Vector &t_vector ) const;
     bool operator!=( const Vector &t_vector ) const;
 
@@ -38,8 +40,8 @@ public:
     int get_size() const;
 
 private:
-    double *vector;
-    int size;
+    double *m_vector;
+    int m_size;
 }; // class Vector
 
 double angle( const Vector v1, const Vector v2 );

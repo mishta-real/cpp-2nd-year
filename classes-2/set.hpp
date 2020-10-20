@@ -21,6 +21,9 @@ std::ostream &operator<<(
 template <typename T>
 bool is_type_valid( const T t_value );
 
+/*
+ * Class Set, based on std::vector.
+*/
 template <typename T>
 class Set {
 
@@ -322,17 +325,6 @@ void Set<T>::sort()
         std::sort( m_set.begin(), m_set.end() );
     }
 }
-
-/*
-// Remove duplicates from SORTED set
-// (undefined behavior if set is not sorted)
-template <typename T>
-void Set<T>::m_remove_duplicates()
-{
-    auto last = std::unique( m_set.begin(), m_set.end() );
-    m_set.erase( last, m_set.end() );
-}
-*/
 
 } // namespace Set
 #endif

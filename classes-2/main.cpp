@@ -1,6 +1,6 @@
-// #include "complex.hpp"
+#include "complex.hpp"
 #include "set.hpp"
-// #include "vector.hpp"
+#include "vector.hpp"
 
 #include <cstdlib>
 #include <fstream>
@@ -34,11 +34,13 @@ void open_file( std::ifstream &file, const std::string &filename )
     }
 }
 
+/*
 void refresh_file( std::ifstream &file )
 {
     file.clear();
     file.seekg( 0, file.beg );
 }
+*/
 
 void parse_file( std::ifstream &file, Set::Set<int> &t_set )
 {
@@ -50,14 +52,33 @@ void parse_file( std::ifstream &file, Set::Set<int> &t_set )
     }
 }
 
-/*
 void test_vector()
 {
-    Vector::Vector<int> vec_int( 5 );
-    for ( int i = 0; i < vec_int.size(); ++i ) {
-    }
+    Vector::Vector<int> v_int = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    std::cout
+        << "Integer vector v_int = " << v_int
+        << "\nLength (geometrical): " << v_int.length() << "\n\n";
+
+    Vector::Vector<double> v_double = { 1.24, 26.21, 63.02, 1222.0009 };
+    std::cout
+        << "Double vector v_double = " << v_double
+        << "\nLength (geometrical): " << v_double.length() << "\n\n";
+
+    Vector::Vector<Complex::Complex> v_complex = {
+        Complex::Complex( 2, 3 ),
+        Complex::Complex( -2, 24 ),
+        Complex::Complex( .21, -66 ),
+        Complex::Complex( -.652, .126 )
+    };
+    std::cout
+        << "Complex vector v_complex = " << v_complex
+        << "\nLength (number of coordinates): " << v_complex.length() << '\n';
+
+    std::cout << "\n------------------------------------------------------\n";
+
+    std::cout << std::endl;
 }
-*/
+
 
 void test_set()
 {
@@ -134,6 +155,7 @@ void test_set()
 
 int main()
 {
+    Test::test_vector();
     Test::test_set();
     return 0;
 }

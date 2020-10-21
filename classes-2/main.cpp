@@ -9,11 +9,6 @@
 
 namespace Test {
 
-enum Tests {
-    Vector = 1,
-    Set = 2
-};
-
 void open_file( std::ifstream &file, const std::string &filename )
 {
     try {
@@ -33,14 +28,6 @@ void open_file( std::ifstream &file, const std::string &filename )
         std::exit( 1 );
     }
 }
-
-/*
-void refresh_file( std::ifstream &file )
-{
-    file.clear();
-    file.seekg( 0, file.beg );
-}
-*/
 
 void parse_file( std::ifstream &file, Set::Set<int> &t_set )
 {
@@ -134,13 +121,13 @@ void test_set()
 
     /* Additional task */
     std::cout << "Intersection of M_1 and M_2:\n";
-    Set::Set<int> isec = m1.intersect( m2 );
-    std::cout << isec << "\n\n";
+    Set::Set<int> m4 = m1.intersect( m2 );
+    std::cout << "M_4 = " << m4 << "\n\n";
 
     /* Task 5 */
     std::cout << "Union of M_2 and M_3:\n";
-    Set::Set<int> m4 = m2 + m3;
-    std::cout << "M_4 = " << m4 << "\n\n";
+    Set::Set<int> m5 = m2 + m3;
+    std::cout << "M_5 = " << m5 << "\n\n";
 
     /* Task 6 */
     std::cout << "The set can consist only of integers not divisable by 3:\n";

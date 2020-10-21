@@ -30,7 +30,10 @@ class Vector {
 
 public:
     Vector( const int t_size=1 );
+    // Vector( const Vector<T> &t_vector );
+    // Vector &operator=( const Vector<T> &t_vector );
     Vector<T>( const std::initializer_list<T> list );
+
     ~Vector();
 
     friend std::ostream &operator<< <T>(

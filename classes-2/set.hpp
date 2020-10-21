@@ -29,7 +29,7 @@ class Set {
 
 public:
     Set();
-    explicit Set( const std::vector<T> &list );
+    // explicit Set( const std::vector<T> &list );
     Set( const Set<T> &t_set );
     Set<T> &operator=( const Set<T> &t_set );
 
@@ -92,14 +92,14 @@ Set<T>::Set()
     m_set.clear();
 }
 
-
+/*
 template <typename T>
 Set<T>::Set( const std::vector<T> &list )
     : m_set{ list }
 {
     sort();
 }
-
+*/
 
 template <typename T>
 Set<T>::Set( const Set<T> &t_set )

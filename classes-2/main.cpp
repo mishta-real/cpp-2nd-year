@@ -132,6 +132,11 @@ void test_set()
     m2.remove();
     std::cout << "M_2 = " << m2 << "\n\n";
 
+    /* Additional task */
+    std::cout << "Intersection of M_1 and M_2:\n";
+    Set::Set<int> isec = m1.intersect( m2 );
+    std::cout << isec << "\n\n";
+
     /* Task 5 */
     std::cout << "Union of M_2 and M_3:\n";
     Set::Set<int> m4 = m2 + m3;

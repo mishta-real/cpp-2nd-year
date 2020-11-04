@@ -2,6 +2,7 @@
 #define STRINGS_HPP
 
 #include <algorithm> // std::any_of
+#include <cctype> // std::isalpha(), std::to
 #include <stack> // std::stack
 #include <string> // std::string
 #include <queue> // std::queue
@@ -15,8 +16,20 @@ const bool is_palindrome(
     std::queue<char> char_queue;
 
     for ( const char *elem = string; *elem != '\0'; ++elem ) {
-        char_stack.push( *elem );
-        char_queue.push( *elem );
+        // Only add letters and digits to stack and queue
+        if ( std::isalnum( *elem ) ) {
+            if ( std::isupper( *elem ) ) {
+                char_stack.push( std::tolower( *elem ) );
+                char_queue.push( std::tolower( *elem ) );
+            }
+            else {
+                char_stack.push( *elem );
+                char_queue.push( *elem );
+            }
+        }
+        else {
+            continue;
+        }
     }
 
     while ( !char_stack.empty() && !char_queue.empty() ) {
@@ -39,8 +52,20 @@ const bool is_palindrome(
     std::queue<char> char_queue;
 
     for ( const auto& elem : string ) {
-        char_stack.push( elem );
-        char_queue.push( elem );
+        // Only add letters and digits to stack and queue
+        if ( std::isalnum( elem ) ) {
+            if ( std::isupper( elem ) ) {
+                char_stack.push( std::tolower( elem ) );
+                char_queue.push( std::tolower( elem ) );
+            }
+            else {
+                char_stack.push( elem );
+                char_queue.push( elem );
+            }
+        }
+        else {
+            continue;
+        }
     }
 
     while ( !char_stack.empty() && !char_queue.empty() ) {

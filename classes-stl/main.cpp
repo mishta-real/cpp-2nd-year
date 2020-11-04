@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -95,11 +96,13 @@ void test_strings()
 
             if ( Strings::is_palindrome( t_string ) ) {
                 std::cout
-                    << t_string << " is palindrome.\n";
+                    << '\'' << t_string << '\''
+                    << " is palindrome.\n";
             }
             else {
                 std::cout
-                    << t_string << " is not palindrome.\n";
+                    << '\'' << t_string << '\''
+                    << " is not palindrome.\n";
             }
             std::cout << std::endl;
         }

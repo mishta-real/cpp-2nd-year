@@ -1,23 +1,18 @@
 #ifndef STRINGS_HPP
 #define STRINGS_HPP
 
-#include <stack>
-#include <string>
-#include <queue>
+#include <algorithm> // std::any_of
+#include <stack> // std::stack
+#include <string> // std::string
+#include <queue> // std::queue
 
 namespace Strings {
 
-const bool is_palindrome( const char *string );
-const bool is_palindrome( const std::string &string );
-
-const bool braces_valid( const char *string );
-const bool braces_valid( const std::string &string );
-
-
-const bool is_palindrome( const char *string )
-{
-    std::stack<char> char_stack; // LIFO
-    std::queue<char> char_queue; // FIFO
+const bool is_palindrome(
+        const char *string
+) {
+    std::stack<char> char_stack;
+    std::queue<char> char_queue;
 
     for ( const char *elem = string; *elem != '\0'; ++elem ) {
         char_stack.push( *elem );
@@ -37,10 +32,11 @@ const bool is_palindrome( const char *string )
     return char_stack.empty() && char_queue.empty();
 }
 
-const bool is_palindrome( const std::string &string )
-{
-    std::stack<char> char_stack; // LIFO
-    std::queue<char> char_queue; // FIFO
+const bool is_palindrome(
+        const std::string &string
+) {
+    std::stack<char> char_stack;
+    std::queue<char> char_queue;
 
     for ( const auto& elem : string ) {
         char_stack.push( elem );
@@ -60,63 +56,97 @@ const bool is_palindrome( const std::string &string )
     return char_stack.empty() && char_queue.empty();
 }
 
-
-const bool braces_valid( const char *string )
-{
-    std::stack<char> brace_stack;
+const bool brackets_valid(
+        const char *string
+) {
+    std::stack<char> bracket_stack;
 
     for ( const char *elem = string; *elem != '\0'; ++elem ) {
         if ( *elem != '(' && *elem != '{' && *elem != '[' ) {
+            // Normal character
             if ( *elem != ')' && *elem != '}' && *elem != ']' ) {
                 continue;
             }
-            else if ( (*elem == ')' && brace_stack.top() == '(') ||
-                    (*elem == '}' && brace_stack.top() == '{') ||
-                    (*elem == ']' && brace_stack.top() == '[') ) {
-                // Pop the valid opening brace:
-                brace_stack.pop();
+            // Closing bracket goes before the opening one
+            else if ( bracket_stack.empty() ) {
+                return false;
             }
-            // Closing brace goes before the opening one or they do not match:
+            // Correct pair
+            else if ( (*elem == ')' && bracket_stack.top() == '(') ||
+                    (*elem == '}' && bracket_stack.top() == '{') ||
+                    (*elem == ']' && bracket_stack.top() == '[') ) {
+                // Pop the valid opening brace:
+                bracket_stack.pop();
+            }
+            // Brackets do not match or closing bracket goes before the opening one
             else {
                 return false;
             }
         }
         else {
             // This will only push opening braces:
-            brace_stack.push( *elem );
+            bracket_stack.push( *elem );
         }
     }
     // Check if there are no unclosed braces left:
-    return brace_stack.empty();
+    return bracket_stack.empty();
 }
 
-const bool braces_valid( const std::string &string )
-{
-    std::stack<char> brace_stack;
+const bool brackets_valid(
+        const std::string &string
+) {
+    std::stack<char> bracket_stack;
 
     for ( const auto &elem : string ) {
         if ( elem != '(' && elem != '{' && elem != '[' ) {
+            // Normal character
             if ( elem != ')' && elem != '}' && elem != ']' ) {
                 continue;
             }
-            else if ( (elem == ')' && brace_stack.top() == '(') ||
-                    (elem == '}' && brace_stack.top() == '{') ||
-                    (elem == ']' && brace_stack.top() == '[') ) {
-                // Pop the valid opening brace:
-                brace_stack.pop();
+            // Closing bracket goes before the opening one
+            else if ( bracket_stack.empty() ) {
+                return false;
             }
-            // Closing brace goes before the opening one or they do not match:
+            // Correct pair
+            else if ( (elem == ')' && bracket_stack.top() == '(') ||
+                    (elem == '}' && bracket_stack.top() == '{') ||
+                    (elem == ']' && bracket_stack.top() == '[') ) {
+                // Pop the valid opening brace:
+                bracket_stack.pop();
+            }
+            // Brackets do not match or closing bracket goes before the opening one
             else {
                 return false;
             }
         }
         else {
             // This will only push opening braces:
-            brace_stack.push( elem );
+            bracket_stack.push( elem );
         }
     }
     // Check if there are no unclosed braces left:
-    return brace_stack.empty();
+    return bracket_stack.empty();
+}
+
+const bool has_brackets( const char *string )
+{
+    for ( const char *elem = string; *elem != '\0'; ++elem ) {
+        if ( *elem == '(' || *elem == '{' || *elem == '[' ||
+            *elem == ')' || *elem == '}' || *elem == ']' ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+const bool has_brackets( const std::string &string )
+{
+    return std::any_of( string.begin(), string.end(), []( const auto &elem ){
+        return
+            elem == '(' || elem == '{' || elem == '[' ||
+            elem == ')' || elem == '}' || elem == ']';
+        }
+    );
 }
 
 } // namespace Strings

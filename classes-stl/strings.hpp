@@ -2,7 +2,7 @@
 #define STRINGS_HPP
 
 #include <algorithm> // std::any_of
-#include <cctype> // std::isalpha(), std::to
+#include <cctype> // std::isalpha(), std::tolower()
 #include <stack> // std::stack
 #include <string> // std::string
 #include <queue> // std::queue
